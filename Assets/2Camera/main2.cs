@@ -47,7 +47,7 @@ public class main2 : MonoBehaviour
         Vector3 v2 = new Vector3(zahyou4[0], zahyou4[1], zahyou4[2]);
         Vector3 v3 = new Vector3(zahyou1[0], zahyou1[1], zahyou1[2]);
 
-        float x = 0.2f, y = 0.5f;
+        float x = 0.5f, y = 0.5f;
         Vector3 pt = (1 - x - y) * v1 + x * v2 + y * v3;
 
         const float imgOffsY = 2.0f;
@@ -61,8 +61,7 @@ public class main2 : MonoBehaviour
         obj.transform.localScale = new Vector3(width / (float)height, imgH, 1);
         //四角形のサイズを読み込んだ画像から縦横比を割り出す
 
-        obj.GetComponent<Renderer>().material.mainTexture = texture;// www.texture;
-
+        obj.GetComponent<Renderer>().material.mainTexture = texture;
 
         // Draw lines
         GameObject bObj = GameObject.Find("building");
@@ -82,32 +81,9 @@ public class main2 : MonoBehaviour
         lineObj.startWidth = 0.05f;
         lineObj.endWidth = 0.05f;
         //ラインの太さ変更
-
-
-
-        /*Vector3[] vertex = new Vector3[] { 
-            new Vector3(0f, 0f, 0f),
-            new Vector3(0f, 1f, 0f),
-            new Vector3(1f, 1f, 0f)
-        }; 
-        //各座標を指定している
-        int[] face = new int[] { 0, 1, 2 };
-        // 0と1、1と2、2と0がつながり面となる
-        Mesh mesh = new Mesh();
-        //3Dの形状を管理するモデルデータを作って渡す
-        mesh.vertices = ;
-        mesh.triangles = face;
-        //頂点や面情報を渡す
-        GameObject  = new GameObject("Object"); 
-
-        MeshFilter mesh_filter = obj.AddComponent<MeshFilter>();
-        obj.AddComponent<MeshRenderer>();
-        mesh_filter.mesh = mesh;        */
     }
-
     // Update is called once per frame
     void Update()
     {
-
     }
 }
