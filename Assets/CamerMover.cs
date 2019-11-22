@@ -39,12 +39,14 @@ public class CamerMover: MonoBehaviour
     //UIメッセージの表示
     private bool _uiMessageActiv;
 
+    
     void Start()
     {
         _camTransform = this.gameObject.transform;
 
         //初期回転の保存
         _initialCamRotation = this.gameObject.transform.rotation;
+
 
 
     }
@@ -64,8 +66,8 @@ public class CamerMover: MonoBehaviour
         {
             ResetCameraRotation(); //回転角度のみリセット
             CameraRotationMouseControl(); //カメラの回転 マウス
-            CameraSlideMouseControl(); //カメラの縦横移動 マウス
-            CameraPositionKeyControl(); //カメラのローカル移動 キー
+            //CameraSlideMouseControl(); //カメラの縦横移動 マウス
+            //CameraPositionKeyControl(); //カメラのローカル移動 キー
         }
     }
 
@@ -94,29 +96,56 @@ public class CamerMover: MonoBehaviour
         }
     }
 
+    float prevAngleX = 0.0f, prevAngleY = 0.0f;
+    float eulerX = 0, eulerY = 0;
+
     //カメラの回転 マウス
     private void CameraRotationMouseControl()
     {
         if (Input.GetMouseButtonDown(0))
         {
             _startMousePos = Input.mousePosition;
-            _presentCamRotation.x = _camTransform.transform.eulerAngles.x;
-            _presentCamRotation.y = _camTransform.transform.eulerAngles.y;
-        } 
+        }
 
-         if (Input.GetMouseButton(0))
+        if (Input.GetMouseButton(0))
         { 
             //(移動開始座標 - マウスの現在座標) / 解像度 で正規化
             float x = (_startMousePos.x - Input.mousePosition.x) / Screen.width;
-            float y = (_startMousePos.y - Input.mousePosition.y) / Screen.height; 
+            float y = -(_startMousePos.y - Input.mousePosition.y) / Screen.height; 
 
             //回転開始角度 ＋ マウスの変化量 * マウス感度
-            float eulerX = _presentCamRotation.x + y * _mouseSensitive;
-            float eulerY = _presentCamRotation.y + x * _mouseSensitive;
+            eulerX = prevAngleX + _presentCamRotation.x + y * _mouseSensitive;
+            eulerY = prevAngleY + _presentCamRotation.y + x * _mouseSensitive;
 
-            _camTransform.rotation = Quaternion.Euler(eulerX, eulerY, 0); 
+            float xspeed = 0.01f;
+            float angleX = eulerX * xspeed;
+            angleX = Math.Min(0, Math.Max(-Mathf.PI / 2.0f, angleX));
+            eulerX = angleX / xspeed;
+
+            MoveObjects("Main Camera", "1FPivot", angleX, eulerY,0);
+            MoveObjects("Cam2", "2FPivot", angleX, eulerY,100);
+
         }
-    } 
+        if (Input.GetMouseButtonUp(0))
+        {
+            prevAngleX = eulerX;
+            prevAngleY = eulerY;
+        }
+    }
+    // tr = GameObject.Find("2Camera").transform;
+
+    void MoveObjects(string camname, string objname, float angleX,float angleY,float camX)
+    {
+        float r = -6;
+
+        Transform tr = GameObject.Find(objname).transform;
+        tr.rotation = Quaternion.AngleAxis(angleY, new Vector3(0, 1, 0));
+
+        tr = GameObject.Find(camname).transform;
+        tr.position = new Vector3(camX, r * Mathf.Sin(angleX), r * Mathf.Cos(angleX));
+        float rotangle = -angleX * Mathf.Rad2Deg;
+        tr.rotation = Quaternion.AngleAxis(rotangle, new Vector3(1, 0, 0));
+    }
 
     //カメラの移動 マウス
     private void CameraSlideMouseControl()
@@ -141,7 +170,7 @@ public class CamerMover: MonoBehaviour
             _camTransform.position = velocity;
         } 
     } 
-
+    /*
     //カメラのローカル移動 キー
     private void CameraPositionKeyControl()
     {
@@ -159,7 +188,7 @@ public class CamerMover: MonoBehaviour
         if (Input.GetKey(KeyCode.UpArrow)) { campos += _camTransform.forward * Time.deltaTime * _positionStep; }
         if (Input.GetKey(KeyCode.DownArrow)) { campos -= _camTransform.forward * Time.deltaTime * _positionStep; }
         _camTransform.position = campos;
-    }
+    }*/
 
     //UIメッセージの表示
     private IEnumerator DisplayUiMessage()
