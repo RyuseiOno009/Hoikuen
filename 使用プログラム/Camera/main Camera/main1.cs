@@ -140,24 +140,19 @@ public class main1 : MonoBehaviour
         lineObj.endWidth = 0.05f;
         //ラインの太さ変更
 
+        Transform parentTransform;
         if (floorNum == 0)
         {
-            // プレハブを取得
-            GameObject Gameobject = (GameObject)Resources.Load("Prefabs/Effects/Gameobject");
-            Vector3 pos = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y, gameObject.transform.position.z);
-
-            // 作成したオブジェクトを子として登録
-            gameObject.transform.parent = Gameobject.Find(1FPivot);
+            parentTransform = GameObject.Find("1FPivot").transform;
         }
         else
         {
-            // プレハブを取得
-            GameObject Gameobject = (GameObject)Resources.Load("Prefabs/Effects/Gameobject");
-            Vector3 pos = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y, gameObject.transform.position.z);
-
-            // 作成したオブジェクトを子として登録
-            gameObject.transform.parent = Gameobject.Find(2FPivot);
+            parentTransform = GameObject.Find("2FPivot").transform;
         }
+
+        obj.transform.position -= parentTransform.position;
+        obj.transform.parent = parentTransform;
+
 
 
         /*Vector3[] vertex = new Vector3[] { 
