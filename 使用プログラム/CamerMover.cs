@@ -124,12 +124,14 @@ public class CamerMover: MonoBehaviour
 
             MoveObjects("Main Camera", "1FPivot", angleX, eulerY,0);
             MoveObjects("Cam2", "2FPivot", angleX, eulerY,100);
+            //1FPivotと2FPivotを検索（回転するオブジェクトを検出）
 
         }
         if (Input.GetMouseButtonUp(0))
         {
             prevAngleX = eulerX;
             prevAngleY = eulerY;
+            //マウスがクリックされたか真偽
         }
     }
     // tr = GameObject.Find("2Camera").transform;
@@ -137,6 +139,7 @@ public class CamerMover: MonoBehaviour
     void MoveObjects(string camname, string objname, float angleX,float angleY,float camX)
     {
         float r = -6;
+        //カメラ回転半径６で設定
 
         Transform tr = GameObject.Find(objname).transform;
         tr.rotation = Quaternion.AngleAxis(angleY, new Vector3(0, 1, 0));
@@ -145,12 +148,14 @@ public class CamerMover: MonoBehaviour
         tr.position = new Vector3(camX, r * Mathf.Sin(angleX), r * Mathf.Cos(angleX));
         float rotangle = -angleX * Mathf.Rad2Deg;
         tr.rotation = Quaternion.AngleAxis(rotangle, new Vector3(1, 0, 0));
+
     }
 
     //カメラの移動 マウス
     private void CameraSlideMouseControl()
     { 
         if (Input.GetMouseButtonDown(1))
+            //マウスのボタンが押し込まれたか
         {
             _startMousePos = Input.mousePosition;
             _presentCamPos = _camTransform.position;
@@ -170,25 +175,6 @@ public class CamerMover: MonoBehaviour
             _camTransform.position = velocity;
         } 
     } 
-    /*
-    //カメラのローカル移動 キー
-    private void CameraPositionKeyControl()
-    {
-        Vector3 campos = _camTransform.position;
-
-        if (Input.GetKey(KeyCode.D)) { campos += _camTransform.right * Time.deltaTime * _positionStep; }
-        if (Input.GetKey(KeyCode.A)) { campos -= _camTransform.right * Time.deltaTime * _positionStep; }
-        if (Input.GetKey(KeyCode.E)) { campos += _camTransform.up * Time.deltaTime * _positionStep; }
-        if (Input.GetKey(KeyCode.Q)) { campos -= _camTransform.up * Time.deltaTime * _positionStep; }
-        if (Input.GetKey(KeyCode.W)) { campos += _camTransform.forward * Time.deltaTime * _positionStep; }
-        if (Input.GetKey(KeyCode.S)) { campos -= _camTransform.forward * Time.deltaTime * _positionStep; }
-
-        if (Input.GetKey(KeyCode.RightArrow)) { campos += _camTransform.right * Time.deltaTime * _positionStep; }
-        if (Input.GetKey(KeyCode.LeftArrow)) { campos -= _camTransform.right * Time.deltaTime * _positionStep; }
-        if (Input.GetKey(KeyCode.UpArrow)) { campos += _camTransform.forward * Time.deltaTime * _positionStep; }
-        if (Input.GetKey(KeyCode.DownArrow)) { campos -= _camTransform.forward * Time.deltaTime * _positionStep; }
-        _camTransform.position = campos;
-    }*/
 
     //UIメッセージの表示
     private IEnumerator DisplayUiMessage()

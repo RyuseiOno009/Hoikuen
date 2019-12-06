@@ -7,10 +7,10 @@ public class gazou2 : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        float[] zahyou1 = new float[3] { 1.2868f, 0, 1.6927f };
-        float[] zahyou2 = new float[3] { 9.6191f, 0, 1.6939f };
-        float[] zahyou3 = new float[3] { 1.287f, 0, 8.89f };
-        float[] zahyou4 = new float[3] { 9.6242f, 0, 8.8773f };
+        float[] zahyou1 = new float[3] { 97.062f, -0.002f, -2.831f };
+        float[] zahyou2 = new float[3] { 102.371f, -0.002f, -2.831f };
+        float[] zahyou3 = new float[3] { 102.371f, -0.002f, 2.716f };
+        float[] zahyou4 = new float[3] { 97.062f, -0.002f, 2.716f };
         //見取り図の四隅の座標を入力。順に左下・右下・左上・右上
 
         Vector3 v1 = new Vector3(zahyou3[0], zahyou3[1], zahyou3[2]);
